@@ -75,7 +75,7 @@ def expectedLibDefense():
 
     expectedLibOnDefense = (defenseEff / 10000) / ((invasionLevel / 20) / defensePop)
 
-    print(f"\nExpected Liberation%/h on Defense: {expectedLibOnDefense:.2f}")
+    print(f"\nExpected Liberation%/h on Defense: {expectedLibOnDefense:.3f}")
     input("\nPress Enter to continue...")
     # Wait for user input to continue
 
@@ -148,7 +148,7 @@ def expectedLibLiberation():
 
     expectedLibOnLiberation = ((liberationEff / 10000) * liberationPop)
 
-    print(f"\nExpected Liberation%/h on Liberation: {expectedLibOnLiberation:.2f}")
+    print(f"\nExpected Liberation%/h on Liberation: {expectedLibOnLiberation:.3f}")
     input("\nPress Enter to continue...")
     # Wait for user input to continue
 
