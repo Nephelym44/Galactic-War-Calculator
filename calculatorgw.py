@@ -18,7 +18,9 @@ def verifyInput(prompt):
             print("\nInput must be a number.")
             prompt = input("\nEnter the value: ")
             verifyInput(prompt) # Recursive call to verifyInput
-     
+
+##################################################################################################################################
+
 def efficiencyDefense():
 
     defenseHour = input("\nCurrent lib%/h: ")
@@ -103,7 +105,9 @@ def neededLibDefense():
     print(f"\nNeeded lib%/h to Defend in time: {neededLibPerHourDefense:.2f}")
     input("\nPress Enter to continue...")
     # Wait for user input to continue
-    
+
+##################################################################################################################################
+
 def efficiencyLiberation():
 
     liberationHour = input("\nCurrent lib%/h: ")
@@ -122,7 +126,7 @@ def efficiencyLiberation():
 
 def popNeededLiberation():
     
-    liberationHour = input("\nCurrent lib%/h: ")
+    liberationHour = input("\nNeeded lib%/h: ")
     liberationHour = verifyInput(liberationHour)
     # Current lib%/h on the planet
 
@@ -182,6 +186,8 @@ def neededLibLiberation():
     input("\nPress Enter to continue...")
     # Wait for user input to continue
 
+##################################################################################################################################
+
 def invasion():
     while True:
         print("\nGalactic War Calculator - Invasion")
@@ -218,6 +224,8 @@ def invasion():
         elif opcao == '4':
             print("\nNeeded liberation %/h selected.")
             neededLibDefense() # Call function for needed liberation %/h
+
+##################################################################################################################################
 
 def liberation():
 
@@ -256,6 +264,8 @@ def liberation():
         elif option == '4':
             print("\nNeeded liberation %/h selected.")
             neededLibLiberation() # Call function for needed liberation %/h
+
+##################################################################################################################################
 
 def main():
     while True:
