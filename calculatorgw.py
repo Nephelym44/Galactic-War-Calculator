@@ -1,4 +1,4 @@
-import sys
+import sys, subprocess
 
 def verifyInput(prompt):
 
@@ -41,6 +41,8 @@ def efficiencyDefense():
     input("\nPress Enter to continue...")
     # Wait for user input to continue
 
+    subprocess.run("cls", shell=True) # Clear the console
+
 def popNeededDefense():
 
     defenseHour = input("\nNeeded lib%/h: ")
@@ -61,6 +63,8 @@ def popNeededDefense():
     input("\nPress Enter to continue...")
     # Wait for user input to continue
 
+    subprocess.run("cls", shell=True) # Clear the console
+
 def expectedLibDefense():
 
     defensePop = input("\nCurrent population: ")
@@ -80,6 +84,8 @@ def expectedLibDefense():
     print(f"\nExpected Liberation%/h on Defense: {expectedLibOnDefense:.3f}")
     input("\nPress Enter to continue...")
     # Wait for user input to continue
+
+    subprocess.run("cls", shell=True) # Clear the console
 
 
 def neededLibDefense():
@@ -106,6 +112,8 @@ def neededLibDefense():
     input("\nPress Enter to continue...")
     # Wait for user input to continue
 
+    subprocess.run("cls", shell=True) # Clear the console
+
 ##################################################################################################################################
 
 def efficiencyLiberation():
@@ -124,6 +132,8 @@ def efficiencyLiberation():
     input("\nPress Enter to continue...")
     # Wait for user input to continue
 
+    subprocess.run("cls", shell=True) # Clear the console
+
 def popNeededLiberation():
     
     liberationHour = input("\nNeeded lib%/h: ")
@@ -140,6 +150,8 @@ def popNeededLiberation():
     input("\nPress Enter to continue...")
     # Wait for user input to continue
 
+    subprocess.run("cls", shell=True) # Clear the console
+
 def expectedLibLiberation():
     
     liberationPop = input("\nCurrent population: ")
@@ -155,6 +167,8 @@ def expectedLibLiberation():
     print(f"\nExpected Liberation%/h on Liberation: {expectedLibOnLiberation:.3f}")
     input("\nPress Enter to continue...")
     # Wait for user input to continue
+
+    subprocess.run("cls", shell=True) # Clear the console
 
 def neededLibLiberation():
 
@@ -186,9 +200,14 @@ def neededLibLiberation():
     input("\nPress Enter to continue...")
     # Wait for user input to continue
 
+    subprocess.run("cls", shell=True) # Clear the console
+
 ##################################################################################################################################
 
 def invasion():
+    
+    subprocess.run("cls", shell=True) # Clear the console
+
     while True:
         print("\nGalactic War Calculator - Invasion")
         print("\nSelect what you want to know:\n")
@@ -207,6 +226,7 @@ def invasion():
 
         if opcao == '0':
             print("\nReturning to the main menu.")
+            subprocess.run("cls", shell=True) # Clear the console
             break # Returns to the main menu
     
         elif opcao == '1':
@@ -229,6 +249,8 @@ def invasion():
 
 def liberation():
 
+    subprocess.run("cls", shell=True) # Clear the console
+
     while True:
         print("\nGalactic War Calculator - Liberation")
         print("\nSelect what you want to know:\n")
@@ -247,6 +269,7 @@ def liberation():
 
         if option == '0':
             print("\nReturning to the main menu.")
+            subprocess.run("cls", shell=True) # Clear the console
             break # Returns to the main menu
     
         elif option == '1':
@@ -268,6 +291,7 @@ def liberation():
 ##################################################################################################################################
 
 def main():
+
     while True:
         print("Galactic War Calculator")
         print("Select the type of Campaign:\n")
