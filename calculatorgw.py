@@ -6,11 +6,11 @@ def verifyInput(prompt):
     
         try:
             value = float(prompt) # Variable to check if the input is a number
-            if value > 0: # Check if the input is greater than 0
+            if value >= 0: # Check if the input is greater or equal to 0
                 prompt = value
                 return prompt
             else:
-                print("\nInput must be greater than 0.")
+                print("\nInput must be greater than or equal to 0.")
                 prompt = input("\nEnter the value: ")
                 verifyInput(prompt) # Recursive call to verifyInput
 
@@ -172,6 +172,10 @@ def expectedLibLiberation():
 
 def neededLibLiberation():
 
+    planetDecay = input("\nPlanet decay in %: ")
+    planetDecay = verifyInput(planetDecay)
+    # Have to input the planet decay for liberation
+
     currentLibHour = input("\nCurrent lib%/h: ")
     currentLibHour = verifyInput(currentLibHour)
     # For ramp up time
@@ -180,8 +184,10 @@ def neededLibLiberation():
     currentLibProgress = verifyInput(currentLibProgress)
     # Current progress on the planet
 
-    currentLibProgress += currentLibHour * 1.5
+    currentLibProgress = currentLibProgress + (currentLibHour * 1.5) - (planetDecay * 1.5)
     # It gets the current liberation on the planet and adds the ramp up time
+    neededLibProgress = 100 - currentLibProgress
+    # It gets the needed liberation progress to reach 100%
 
     timeLeft = input("\nTime left to liberate (in hours): ")
     timeLeft = verifyInput(timeLeft)
@@ -189,11 +195,7 @@ def neededLibLiberation():
 
     timeLeft -= 1.5 # Ramp up time until we reach max liberation
 
-    planetDecay = input("\nPlanet decay in %: ")
-    planetDecay = verifyInput(planetDecay)
-    # Have to input the planet decay for liberation
-
-    neededLibPerHourLiberation = (currentLibProgress / timeLeft) + planetDecay
+    neededLibPerHourLiberation = (neededLibProgress / timeLeft) + planetDecay
     # Calculate the needed liberation per hour considering planet decay
 
     print(f"\nNeeded lib%/h to Liberate in time: {neededLibPerHourLiberation:.2f}")
