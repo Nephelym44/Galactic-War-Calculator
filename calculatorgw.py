@@ -98,8 +98,10 @@ def neededLibDefense():
     currentLibProgress = verifyInput(currentLibProgress)
     # Current progress on the planet
 
-    currentLibProgress += currentLibHour * 1.5
-     # It gets the current liberation on the planet and adds the ramp up time
+    currentLibProgress = currentLibProgress + (currentLibHour * 1.5)
+    # It gets the current liberation on the planet and adds the ramp up time
+    neededLibProgress = 100 - currentLibProgress
+    # It gets the needed liberation progress to reach 100%
 
     timeLeft = input("\nTime left for the invasion (in hours): ")
     timeLeft = verifyInput(timeLeft)
@@ -107,7 +109,7 @@ def neededLibDefense():
 
     timeLeft -= 1.5 # Ramp up time until we reach max liberation
 
-    neededLibPerHourDefense = (currentLibProgress / timeLeft)
+    neededLibPerHourDefense = (neededLibProgress / timeLeft)
     print(f"\nNeeded lib%/h to Defend in time: {neededLibPerHourDefense:.2f}")
     input("\nPress Enter to continue...")
     # Wait for user input to continue
