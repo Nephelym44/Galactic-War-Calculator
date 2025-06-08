@@ -1,3 +1,5 @@
+# Made by: Nephelym :D
+
 import sys, subprocess
 
 def verifyInput(prompt):
@@ -37,7 +39,7 @@ def efficiencyDefense():
 
     efficiencyOnDefense = ((defenseHour * (invasionLevel / 20)) / (defensePop / 10000))
 
-    print(f"\nEfficiency on Defense: {efficiencyOnDefense:.2f}")
+    print(f"\nEfficiency on Defense: {efficiencyOnDefense:.2f}\n")
     input("\nPress Enter to continue...")
     # Wait for user input to continue
 
@@ -59,7 +61,7 @@ def popNeededDefense():
 
     popNeededOnDefense = ((defenseHour * (invasionLevel / 20)) / (defenseEff / 10000))
 
-    print(f"\nPop% needed on Defense: {popNeededOnDefense:.2f}")
+    print(f"\nPop% needed on Defense: {popNeededOnDefense:.2f}\n")
     input("\nPress Enter to continue...")
     # Wait for user input to continue
 
@@ -81,7 +83,7 @@ def expectedLibDefense():
 
     expectedLibOnDefense = (defenseEff / 10000) / ((invasionLevel / 20) / defensePop)
 
-    print(f"\nExpected Liberation%/h on Defense: {expectedLibOnDefense:.3f}")
+    print(f"\nExpected Liberation%/h on Defense: {expectedLibOnDefense:.3f}\n")
     input("\nPress Enter to continue...")
     # Wait for user input to continue
 
@@ -110,7 +112,7 @@ def neededLibDefense():
     timeLeft -= 1.5 # Ramp up time until we reach max liberation
 
     neededLibPerHourDefense = (neededLibProgress / timeLeft)
-    print(f"\nNeeded lib%/h to Defend in time: {neededLibPerHourDefense:.2f}")
+    print(f"\nNeeded lib%/h to Defend in time: {neededLibPerHourDefense:.2f}\n")
     input("\nPress Enter to continue...")
     # Wait for user input to continue
 
@@ -130,7 +132,7 @@ def efficiencyLiberation():
 
     efficiencyOnLiberation = ((liberationHour / liberationPop) * 10000)
 
-    print(f"\nEfficiency on Liberation: {efficiencyOnLiberation:.2f}")
+    print(f"\nEfficiency on Liberation: {efficiencyOnLiberation:.2f}\n")
     input("\nPress Enter to continue...")
     # Wait for user input to continue
 
@@ -148,7 +150,7 @@ def popNeededLiberation():
 
     popNeededOnLiberation = (liberationHour / (liberationEff / 10000))
 
-    print(f"\nPop% needed on Liberation: {popNeededOnLiberation:.2f}")
+    print(f"\nPop% needed on Liberation: {popNeededOnLiberation:.2f}\n")
     input("\nPress Enter to continue...")
     # Wait for user input to continue
 
@@ -166,7 +168,7 @@ def expectedLibLiberation():
 
     expectedLibOnLiberation = ((liberationEff / 10000) * liberationPop)
 
-    print(f"\nExpected Liberation%/h on Liberation: {expectedLibOnLiberation:.3f}")
+    print(f"\nExpected Liberation%/h on Liberation: {expectedLibOnLiberation:.3f}\n")
     input("\nPress Enter to continue...")
     # Wait for user input to continue
 
@@ -200,7 +202,7 @@ def neededLibLiberation():
     neededLibPerHourLiberation = (neededLibProgress / timeLeft) + planetDecay
     # Calculate the needed liberation per hour considering planet decay
 
-    print(f"\nNeeded lib%/h to Liberate in time: {neededLibPerHourLiberation:.2f}")
+    print(f"\nNeeded lib%/h to Liberate in time: {neededLibPerHourLiberation:.2f}\n")
     input("\nPress Enter to continue...")
     # Wait for user input to continue
 
@@ -294,6 +296,25 @@ def liberation():
 
 ##################################################################################################################################
 
+def hodEffectivePopulation():
+    subprocess.run("cls", shell=True) # Clear the console
+
+    print("Galactic War Calculator - HOD Effective Population\n")
+    currentPopulation = input("Insert the current population on the planet: ")
+    currentPopulation = verifyInput(currentPopulation) 
+    # Gets the current population on the planet and verify the input
+
+    currentEffectivePopulation = ((currentPopulation * 3) / (100 + currentPopulation * 2)) * 100
+    # Calculates the effective population with HOD active
+
+    print(f"\nEffective Population with HOD active: {currentEffectivePopulation:.2f}%\n")
+    input("\nPress Enter to continue...")
+    # Wait for user input to continue
+
+    subprocess.run("cls", shell=True) # Clear the console
+
+##################################################################################################################################
+
 def main():
 
     while True:
@@ -301,27 +322,29 @@ def main():
         print("Select the type of Campaign:\n")
         print("1 - Defense/Invasion")
         print("2 - Liberation")
+        print("3 - HOD Effective Population")
         print("0 - Exit\n")
 
         option = input("Enter the option: ")
 
-        while option not in ['0', '1', '2']:
+        while option not in ['0', '1', '2', '3']:
             print("\nInput must be valid.")
             option = input("\nEnter the option: ")
         # Keep the loop until a valid option is entered
 
         if option == '0':
-            print("\nExiting the calculator.")
+            print("\nExiting the calculator.\n")
             sys.exit()
             # Exit the program
         elif option == '1':
-            print("\nDefense/Invasion selected.")
             # Call the function for Defense
             invasion()
         elif option == '2':
-            print("\nLiberation selected.")
             # Call the function for Liberation
             liberation()
+        elif option == '3':
+            # Call the function for HOD Calculation
+            hodEffectivePopulation()
 
 if __name__ == "__main__":
     main()
