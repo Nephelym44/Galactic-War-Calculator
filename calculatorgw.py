@@ -204,8 +204,6 @@ def popNeededWithRegions():
 
     i, j = 0, 0 # Counter for the number of regions
 
-    print(citiesListOrder)
-
     while i <= nRegions:
 
         if i == 0: # Calculation for when no regions liberated
