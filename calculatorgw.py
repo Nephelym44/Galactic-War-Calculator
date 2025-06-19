@@ -48,7 +48,7 @@ def efficiency():
 
     efficiency = ((liberationPerHour * (planetLevel / 20)) / (activePopulation / 10000))
 
-    print(f"\nEfficiency on Defense: {efficiency:.2f}\n")
+    print(f"\nEfficiency on planet: {efficiency:.2f}\n")
     input("\nPress Enter to continue...")
     # Wait for user input to continue
 
@@ -68,8 +68,7 @@ def popNeeded():
     print("\nConsult Helldivers Companion App for the current progress on the planet.")
     planetProgress = input("\nCurrent progress on the planet in %: ")
     planetProgress = verifyInput(planetProgress)
-    planetProgress = planetProgress / 100
-    # Current progress on the planet in decimal
+    # Current progress on the planet 
 
     print("\nConsult Helldivers Companion App for the time left.")
     timeLeft = input("\nTime left for the campaign (in hours): ")
@@ -81,6 +80,12 @@ def popNeeded():
     # Time for liberation to stabilize
 
     neededLiberationPerHour = neededLiberation(currentLibHour, planetDecay, planetProgress, timeLeft, rampUpTime)
+
+    if neededLiberationPerHour == 0:
+        print("\nPlanet will be liberated before the ramp up time ends.")
+        input("\nPress Enter to continue...")
+        subprocess.run("cls", shell=True)
+        return
 
     print("\nConsult Helldivers Companion App for the total HP of the planet.")
     planetLevel = input("\nTotal HP in Level (each level is 50k HP): ")
@@ -113,8 +118,7 @@ def popNeededWithRegions():
     print("\nConsult Helldivers Companion App for the current progress on the planet.")
     planetProgress = input("\nCurrent progress on the planet in %: ")
     planetProgress = verifyInput(planetProgress)
-    planetProgress = planetProgress / 100
-    # Current progress on the planet in decimal
+    # Current progress on the planet 
 
     print("\nConsult Helldivers Companion App for the time left.")
     timeLeft = input("\nTime left for the campaign (in hours): ")
@@ -126,6 +130,12 @@ def popNeededWithRegions():
     # Time for liberation to stabilize
 
     neededLiberationPerHour = neededLiberation(currentLibHour, planetDecay, planetProgress, timeLeft, rampUpTime)
+
+    if neededLiberationPerHour == 0:
+        print("\nPlanet will be liberated before the ramp up time ends.")
+        input("\nPress Enter to continue...")
+        subprocess.run("cls", shell=True)
+        return
 
     print("\nConsult Helldivers Companion App for the total HP of the planet.")
     planetLevel = input("\nTotal HP in Level (each level is 50k HP): ")
@@ -142,7 +152,7 @@ def popNeededWithRegions():
         efficiency = verifyInput(efficiency)
 
     planetHP = planetLevel * 50000
-    planetHP -= (planetProgress * planetHP)
+    planetHP = planetHP - ((planetProgress / 100) * planetHP)
 
     nSet, nTow, nCit, nMega, nRegions = 0, 0, 0, 0, 0 # To start each variable at 0
     SettlementHP = 100000
@@ -204,20 +214,32 @@ def popNeededWithRegions():
 
     i, j = 0, 0 # Counter for the number of regions
 
+    # Settlement: 3.9h aproximadamente, assumindo 35% da população nas cidades
+    # Town: 6.07h aproximadamente, assumindo 35% da população nas cidades
+    # City: 11.65h aproximadamente, assumindo 35% da população nas cidades
+    # Mega City: 17.23h aproximadamente, assumindo 35% da população nas cidades
+    # NÃO CONTANDO COM DECAY!!!!!
+    # Assumindo 35% da população e 1025 de efficiency
+
     while i <= nRegions:
 
         if i == 0: # Calculation for when no regions liberated
             planetHPLevel = int(round(planetHP / 50000))
             popNeededOnRegions = ((neededLiberationPerHour * (planetHPLevel / 20)) / (efficiency / 10000))
-            print(f"\nPop% needed on the planet with ({i}) regions: {popNeededOnRegions:.2f}%")
+            print(f"\nPop% needed on the planet with ({i}) regions: {popNeededOnRegions:.2f}%\n")
             i += 1
 
         elif nSet > 0 and citiesListOrder[j] == 'Settlement': 
 
             planetHP = planetHP - (SettlementHP * 0.5)
             planetHPLevel = int(round(planetHP / 50000))
+
+            if citiesListOrder[j] == []:
+                print("\nLista vazia")
+                break
+
             popNeededOnRegions = ((neededLiberationPerHour * (planetHPLevel / 20)) / (efficiency / 10000))
-            print(f"\nPop% needed on the planet with ({i}) regions: {popNeededOnRegions:.2f}%")
+            print(f"\nPop% needed on the planet with ({i}) regions: {popNeededOnRegions:.2f}%\n")
             print("Region type: Settlement")
 
             nSet -= 1
@@ -226,10 +248,10 @@ def popNeededWithRegions():
 
         elif nTow > 0 and citiesListOrder[j] == 'Town': 
 
-            planetHP = planetHP - (TownHP * 0.5)
+            planetHP = planetHP - (TownHP * 1.5)
             planetHPLevel = int(round(planetHP / 50000))
             popNeededOnRegions = ((neededLiberationPerHour * (planetHPLevel / 20)) / (efficiency / 10000))
-            print(f"\nPop% needed on the planet with ({i}) regions: {popNeededOnRegions:.2f}%")
+            print(f"\nPop% needed on the planet with ({i}) regions: {popNeededOnRegions:.2f}%\n")
             print("Region type: Town")
 
             nTow -= 1
@@ -238,10 +260,10 @@ def popNeededWithRegions():
 
         elif nCit > 0 and citiesListOrder[j] == 'City': 
 
-            planetHP = planetHP - (CityHP * 0.5)
+            planetHP = planetHP - (CityHP * 1.5)
             planetHPLevel = int(round(planetHP / 50000))
             popNeededOnRegions = ((neededLiberationPerHour * (planetHPLevel / 20)) / (efficiency / 10000))
-            print(f"\nPop% needed on the planet with ({i}) regions: {popNeededOnRegions:.2f}%")
+            print(f"\nPop% needed on the planet with ({i}) regions: {popNeededOnRegions:.2f}%\n")
             print("Region type: City")
 
             nCit -= 1
@@ -250,15 +272,20 @@ def popNeededWithRegions():
 
         elif nMega > 0 and citiesListOrder[j] == 'Mega City': 
 
-            planetHP = planetHP - (MegaCityHP * 0.5)
+            planetHP = planetHP - (MegaCityHP * 1.5)
             planetHPLevel = int(round(planetHP / 50000))
             popNeededOnRegions = ((neededLiberationPerHour * (planetHPLevel / 20)) / (efficiency / 10000))
-            print(f"\nPop% needed on the planet with ({i}) regions: {popNeededOnRegions:.2f}%")
+            print(f"\nPop% needed on the planet with ({i}) regions: {popNeededOnRegions:.2f}%\n")
             print("Region type: Mega City")
 
             nMega -= 1
             i += 1
             j += 1
+
+        # WORK IN PROGRESS!!!!!!!!!!!
+        # Pop% needed doesn't work as intended, show numbers way below the expected and negative numbers in certain cases
+        # Fix: Try calculating pop% needed using the total HP of the planet - region bonus like Marshall said.
+        # Example: Get the total HP of the planet, then subtract the HP of the regions bonus and calculate the pop% needed with that HP for each case.
 
 
     input("\nPress Enter to continue...")
@@ -292,15 +319,107 @@ def expectedLiberation():
 
 def neededLiberation(currentLibHour, planetDecay, currentProgress, timeLeft, rampUpTime):
 
-    currentProgress = currentProgress + (currentLibHour * 1.5)
+    currentProgress = currentProgress + (currentLibHour * rampUpTime)
     # It gets the current liberation on the planet and adds the ramp up time
     currentProgress = 100 - currentProgress
     # It gets the needed liberation progress to reach 100%
 
+    if currentProgress < 0:
+        print("\nPlanet will be liberated before the ramp up time ends.")
+        return 0
+        
     timeLeft -= rampUpTime
 
     neededLiberationPerHour = (currentProgress / timeLeft) + planetDecay
     return neededLiberationPerHour  
+
+def callneededLiberation():
+    print("\nConsult Helldivers Companion App for the current lib%/h.")
+    currentLibHour = input("\nCurrent lib%/h: ")
+    currentLibHour = verifyInput(currentLibHour)
+    # For ramp up time
+
+    print("\nConsult Helldivers Companion App for current decay on the planet (for Liberation Campaign).")
+    planetDecay = input("\nPlanet decay (in %): ")
+    planetDecay = verifyInput(planetDecay)
+
+    print("\nConsult Helldivers Companion App for the current progress on the planet.")
+    planetProgress = input("\nCurrent progress on the planet in %: ")
+    planetProgress = verifyInput(planetProgress)
+    # Current progress on the planet in decimal
+
+    print("\nConsult Helldivers Companion App for the time left.")
+    timeLeft = input("\nTime left for the campaign (in hours): ")
+    timeLeft = verifyInput(timeLeft)
+    # Time left to defend the planet
+
+    rampUpTime = input("\nRamp up time (in hours): ")
+    rampUpTime = verifyInput(rampUpTime)
+    # Time for liberation to stabilize
+
+    neededLiberationPerHour = neededLiberation(currentLibHour, planetDecay, planetProgress, timeLeft, rampUpTime)
+
+    print(f"\nNeeded Liberation%/h on the planet: {neededLiberationPerHour:.3f}%\n")
+    input("\nPress Enter to continue...")
+    # Wait for user input to continue
+
+    subprocess.run("cls", shell=True) # Clear the console
+
+def etaLiberatePlanet():
+
+    print("\nConsult Helldivers Companion App for the current lib%/h.")
+    currentLibHour = input("\nLiberation per hour: ")
+    currentLibHour = verifyInput(currentLibHour)
+    # For ramp up time
+
+    print("\nConsult Helldivers Companion App for current decay on the planet (for Liberation Campaign).")
+    planetDecay = input("\nPlanet decay (in %): ")
+    planetDecay = verifyInput(planetDecay)
+
+    print("\nConsult Helldivers Companion App for the current progress on the planet.")
+    planetProgress = input("\nCurrent progress on the planet in %: ")
+    planetProgress = verifyInput(planetProgress)
+
+    currentLibHour -= planetDecay
+
+    etaLiberatePlanet = (100 - planetProgress) / currentLibHour
+    # Calculates the expected time to liberate the planet
+
+    hours = int(etaLiberatePlanet)
+    minutes = int((etaLiberatePlanet - hours) * 60)
+
+    print(f"\nExpected time to liberate the planet: {hours}h{minutes}min\n")
+    input("\nPress Enter to continue...")
+    # Wait for user input to continue
+
+    subprocess.run("cls", shell=True) # Clear the console
+
+def popNeededReachLib():
+
+    print("")
+    liberationHour = input("\nLiberation %/h required: ")
+    liberationHour = verifyInput(liberationHour)
+
+    print("\nUse the efficiency function to get this number.")
+    efficiency = input("\nAverage efficiency: ")
+    efficiency = verifyInput(efficiency)
+    # Current efficiency on the planet
+
+    print("\nConsult Helldivers Companion App for the total HP of the planet.")
+    planetLevel = input("\nTotal HP in Level (each level is 50k HP): ")
+    planetLevel = verifyInput(planetLevel)
+    # The invasion level on the planet
+
+    popNeeded = ((liberationHour * (planetLevel / 20)) / (efficiency / 10000))
+
+    print(f"\nPop% needed on the planet to reach expected liberation: {popNeeded:.2f}%\n")
+    input("\nPress Enter to continue...")
+    # Wait for user input to continue
+
+    subprocess.run("cls", shell=True) # Clear the console
+
+
+
 
 ##################################################################################################################################
 
@@ -313,13 +432,16 @@ def invasion():
         print("\nSelect what you want to know:\n")
         print("1 - Efficiency")
         print("2 - Population needed without regions")
-        print("3 - Population needed with regions")
-        print("4 - Expected liberation %/h")
+        print("3 - Population needed with regions (Work in Progress)")
+        print("4 - Population needed to reach a specific liberation %/h")
+        print("5 - Expected liberation %/h")
+        print("6 - Needed liberation %/h")
+        print("7 - Expected time to liberate planet")
         print("0 - Return")
 
         opcao = input("\nEnter the option: ") 
 
-        while opcao not in ['0', '1', '2', '3', '4']:
+        while opcao not in ['0', '1', '2', '3', '4', '5', '6', '7']:
             print("\nInput must be valid.")
             opcao = input("\nEnter the option: ")
             # Keep the loop until a valid option is entered
@@ -337,12 +459,24 @@ def invasion():
             popNeeded() # Call function for population needed
 
         elif opcao == '3':
-            print("\nPopulation needed with regions selected.")
-            popNeededWithRegions() # Call function for population needed with regions
+            print("\nWork in Progress!!!!!!!!!!")
+            #popNeededWithRegions() # Call function for population needed with regions
 
         elif opcao == '4':
+            print("\nPopulation needed to reach a specific liberation %/h selected.")
+            popNeededReachLib() # Call function for population needed
+
+        elif opcao == '5':
             print("\nExpected liberation %/h selected.")
             expectedLiberation() # Call function for expected liberation %/h
+
+        elif opcao == '6':
+            print("\nNeeded liberation %/h selected.")
+            callneededLiberation()
+
+        elif opcao == '7':
+            print("\nExpected time to liberate planet selected.")
+            etaLiberatePlanet()
 
 
 ##################################################################################################################################
@@ -356,13 +490,16 @@ def liberation():
         print("\nSelect what you want to know:\n")
         print("1 - Efficiency")
         print("2 - Population needed without regions")
-        print("3 - Population needed with regions")
-        print("4 - Expected liberation %/h")
+        print("3 - Population needed with regions (Work in Progress)")
+        print("4 - Population needed to reach a specific liberation %/h")
+        print("5 - Expected liberation %/h")
+        print("6 - Needed liberation %/h")
+        print("7 - Expected time to liberate planet")
         print("0 - Return")
 
         opcao = input("\nEnter the option: ") 
 
-        while opcao not in ['0', '1', '2', '3', '4']:
+        while opcao not in ['0', '1', '2', '3', '4', '5', '6', '7']:
             print("\nInput must be valid.")
             opcao = input("\nEnter the option: ")
             # Keep the loop until a valid option is entered
@@ -380,12 +517,24 @@ def liberation():
             popNeeded() # Call function for population needed
 
         elif opcao == '3':
-            print("\nPopulation needed with regions selected.")
-            popNeededWithRegions() # Call function for population needed with regions
+            print("\nWork in Progress!!!!!!!!!!")
+            #popNeededWithRegions() # Call function for population needed with regions
 
         elif opcao == '4':
+            print("\nPopulation needed to reach a specific liberation %/h selected.")
+            popNeededReachLib() # Call function for population needed
+
+        elif opcao == '5':
             print("\nExpected liberation %/h selected.")
             expectedLiberation() # Call function for expected liberation %/h
+
+        elif opcao == '6':
+            print("\nNeeded liberation %/h selected.")
+            callneededLiberation()
+
+        elif opcao == '7':
+            print("\nExpected time to liberate planet selected.")
+            etaLiberatePlanet()
 
 
 ##################################################################################################################################
