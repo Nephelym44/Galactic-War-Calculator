@@ -629,7 +629,7 @@ def main():
 
         option = input("Enter the option: ")
 
-        while option not in ['0', '1', '2', '3']:
+        while option not in ['0', '1', '2', '3', '4']:
             print("\nInput must be valid.")
             option = input("\nEnter the option: ")
         # Keep the loop until a valid option is entered
