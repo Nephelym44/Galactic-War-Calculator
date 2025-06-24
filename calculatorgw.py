@@ -54,6 +54,8 @@ def efficiency():
 
     subprocess.run("cls", shell=True) # Clear the console
 
+##################################################################################################################################
+
 def popNeeded():
 
     print("\nConsult Helldivers Companion App for the current lib%/h.")
@@ -103,6 +105,8 @@ def popNeeded():
     # Wait for user input to continue
 
     subprocess.run("cls", shell=True) # Clear the console
+
+##################################################################################################################################
 
 def popNeededWithRegions():
 
@@ -291,6 +295,8 @@ def popNeededWithRegions():
     input("\nPress Enter to continue...")
     subprocess.run("cls", shell=True) # Clear the console
 
+##################################################################################################################################
+
 def expectedLiberation():
 
     print("\nConsult Helldivers Companion App for the current population on the planet.")
@@ -316,6 +322,8 @@ def expectedLiberation():
 
     subprocess.run("cls", shell=True) # Clear the console
 
+##################################################################################################################################
+
 
 def neededLiberation(currentLibHour, planetDecay, currentProgress, timeLeft, rampUpTime):
 
@@ -330,8 +338,24 @@ def neededLiberation(currentLibHour, planetDecay, currentProgress, timeLeft, ram
         
     timeLeft -= rampUpTime
 
-    neededLiberationPerHour = (currentProgress / timeLeft) + planetDecay
+    print("\n1 for positive decay, 0 for negative decay.")
+
+    while True:
+        decayInput = input("\nIs decay positive or negative?: ") # Need to be asked due to new encirclement mechanics, so now planets go down to -0.5% decay with effect 1219
+        decayInput = verifyInput(decayInput)
+
+        if decayInput == 1:
+            neededLiberationPerHour = (currentProgress / timeLeft) - planetDecay
+            break
+        elif decayInput == 0:
+            neededLiberationPerHour = (currentProgress / timeLeft) + planetDecay
+            break
+        else:
+            print("\nInput must be valid.")
+
     return neededLiberationPerHour  
+
+##################################################################################################################################
 
 def callneededLiberation():
     print("\nConsult Helldivers Companion App for the current lib%/h.")
@@ -365,6 +389,8 @@ def callneededLiberation():
 
     subprocess.run("cls", shell=True) # Clear the console
 
+##################################################################################################################################
+
 def etaLiberatePlanet():
 
     print("\nConsult Helldivers Companion App for the current lib%/h.")
@@ -380,8 +406,21 @@ def etaLiberatePlanet():
     planetProgress = input("\nCurrent progress on the planet in %: ")
     planetProgress = verifyInput(planetProgress)
 
-    currentLibHour -= planetDecay
+    print("\n1 for positive decay, 0 for negative decay.")
 
+    while True:
+        decayInput = input("\nIs decay positive or negative?: ") # Need to be asked due to new encirclement mechanics, so now planets go down to -0.5% decay with effect 1219
+        decayInput = verifyInput(decayInput)
+
+        if decayInput == 1:
+            currentLibHour += planetDecay
+            break
+        elif decayInput == 0:
+            currentLibHour -= planetDecay
+            break
+        else:
+            print("\nInput must be valid.")
+    
     etaLiberatePlanet = (100 - planetProgress) / currentLibHour
     # Calculates the expected time to liberate the planet
 
@@ -394,9 +433,11 @@ def etaLiberatePlanet():
 
     subprocess.run("cls", shell=True) # Clear the console
 
+##################################################################################################################################
+
 def popNeededReachLib():
 
-    print("")
+    print("") 
     liberationHour = input("\nLiberation %/h required: ")
     liberationHour = verifyInput(liberationHour)
 
@@ -418,7 +459,45 @@ def popNeededReachLib():
 
     subprocess.run("cls", shell=True) # Clear the console
 
+##################################################################################################################################
 
+def damagePerPlayerPerHour(): # Thank you RawBeef!
+    subprocess.run("cls", shell=True) # Clear the console
+
+    efficiency = input("Enter the efficiency (use efficiency function): ")
+    efficiency = verifyInput(efficiency)
+
+    print("\nConsult Helldivers Companion App for the total players active.")
+    totalPlayers = input("Enter the total number of players: ")
+    totalPlayers = verifyInput(totalPlayers)
+
+    if totalPlayers == 0:
+        print("\nNumber of players must be greater than 0.")
+    else:
+        damage_per_player_per_hour = efficiency / (totalPlayers / 100)
+        print(f"\nDamage per player per hour: {damage_per_player_per_hour:.2f}\n")
+
+    input("\nPress Enter to continue...")
+    subprocess.run("cls", shell=True) # Clear the console
+
+##################################################################################################################################
+
+def hodEffectivePopulation():
+    subprocess.run("cls", shell=True) # Clear the console
+
+    print("Galactic War Calculator - HOD Effective Population\n")
+    currentPopulation = input("Insert the current population on the planet: ")
+    currentPopulation = verifyInput(currentPopulation) 
+    # Gets the current population on the planet and verify the input
+
+    currentEffectivePopulation = ((currentPopulation * 3) / (100 + currentPopulation * 2)) * 100
+    # Calculates the effective population with HOD active
+
+    print(f"\nEffective Population with HOD active: {currentEffectivePopulation:.2f}%\n")
+    input("\nPress Enter to continue...")
+    # Wait for user input to continue
+
+    subprocess.run("cls", shell=True) # Clear the console
 
 
 ##################################################################################################################################
@@ -478,7 +557,6 @@ def invasion():
             print("\nExpected time to liberate planet selected.")
             etaLiberatePlanet()
 
-
 ##################################################################################################################################
 
 def liberation():
@@ -536,26 +614,6 @@ def liberation():
             print("\nExpected time to liberate planet selected.")
             etaLiberatePlanet()
 
-
-##################################################################################################################################
-
-def hodEffectivePopulation():
-    subprocess.run("cls", shell=True) # Clear the console
-
-    print("Galactic War Calculator - HOD Effective Population\n")
-    currentPopulation = input("Insert the current population on the planet: ")
-    currentPopulation = verifyInput(currentPopulation) 
-    # Gets the current population on the planet and verify the input
-
-    currentEffectivePopulation = ((currentPopulation * 3) / (100 + currentPopulation * 2)) * 100
-    # Calculates the effective population with HOD active
-
-    print(f"\nEffective Population with HOD active: {currentEffectivePopulation:.2f}%\n")
-    input("\nPress Enter to continue...")
-    # Wait for user input to continue
-
-    subprocess.run("cls", shell=True) # Clear the console
-
 ##################################################################################################################################
 
 def main():
@@ -566,6 +624,7 @@ def main():
         print("1 - Invasion")
         print("2 - Liberation")
         print("3 - HOD Effective Population")
+        print("4 - Damager per player per hour")
         print("0 - Exit\n")
 
         option = input("Enter the option: ")
@@ -588,6 +647,9 @@ def main():
         elif option == '3':
             # Call the function for HOD Calculation
             hodEffectivePopulation()
+        elif option == '4':
+            # Call the function for Damage per player per hour
+            damagePerPlayerPerHour()
 
 if __name__ == "__main__":
     main()
