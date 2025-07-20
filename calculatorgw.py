@@ -1,6 +1,9 @@
 # Made by: Nephelym :D
-
+import colorama
+from colorama import Fore, Back, Style, init
 import sys, subprocess
+
+init(autoreset=True)
 
 def verifyInput(prompt):
 
@@ -48,8 +51,18 @@ def efficiency():
 
     efficiency = ((liberationPerHour * (planetLevel / 20)) / (activePopulation / 10000))
 
-    print(f"\nEfficiency on planet: {efficiency:.2f}\n")
-    input("\nPress Enter to continue...")
+    if efficiency < 400:
+        print(f"\nEfficiency on planet: {Fore.RED}{efficiency:.2f}{Style.RESET_ALL}\n")
+        input("\nPress Enter to continue...")
+    elif efficiency > 400 and efficiency < 800:
+        print(f"\nEfficiency on planet: {Fore.YELLOW}{efficiency:.2f}{Style.RESET_ALL}\n")
+        input("\nPress Enter to continue...")
+    elif efficiency > 800 and efficiency < 1000:
+        print(f"\nEfficiency on planet: {Fore.GREEN}{efficiency:.2f}{Style.RESET_ALL}\n")
+        input("\nPress Enter to continue...")
+    elif efficiency > 1000:
+        print(f"\nEfficiency on planet: {Fore.CYAN}{efficiency:.2f}{Style.RESET_ALL}\n")
+        input("\nPress Enter to continue...")
     # Wait for user input to continue
 
     subprocess.run("cls", shell=True) # Clear the console
